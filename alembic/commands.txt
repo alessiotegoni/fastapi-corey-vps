@@ -1,0 +1,17 @@
+Per inizializzare alembic (lib di migrazione tipo drizzle-kit)
+uv run alembic init -t async alembic
+
+Creare il file di migrazione (anche per modifiche a modelli)
+IMPORTANTE: se su ambienti windows modificare
+la funzione run_migrations_online in alembic\env.py
+in modo tale che utilizzi un motore di event loop supportato da alembic
+uv run alembic revision --autogenerate -m "[messaggio]"
+
+Applicare tutte le migrazioni
+uv run alembic upgrade head
+
+Per tornare indietro di una migrazione
+uv run alembic downgrade -1
+
+Controllare lo stato corrente delle migrazioni
+uv run alembic current
