@@ -18,10 +18,11 @@ config = context.config
 # TODO: le righe qui sotto sono essenziali per permettere
 # ad almebic di leggere il nostro database_url dalle settings
 database_url_obj = make_url(settings.database_url)
+database_url_escaped = database_url_obj.render_as_string(
+    hide_password=False
+).replace("%", "%%")
 
-config.set_main_option(
-    "sqlalchemy.url", database_url_obj.render_as_string(hide_password=False)
-)
+config.set_main_option("sqlalchemy.url", database_url_escaped)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
