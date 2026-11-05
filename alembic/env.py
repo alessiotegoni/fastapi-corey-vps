@@ -2,7 +2,7 @@ import asyncio
 import selectors
 from logging.config import fileConfig
 
-from sqlalchemy import pool
+from sqlalchemy import make_url, pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
@@ -14,10 +14,13 @@ from database import Base
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-# TODO: la riga qui sotto e' essenziale per permettere
+
+# TODO: le righe qui sotto sono essenziali per permettere
 # ad almebic di leggere il nostro database_url dalle settings
+database_url_obj = make_url(settings.database_url)
+
 config.set_main_option(
-    "sqlalchemy.url", settings.database_url.replace("%", "%%")
+    "sqlalchemy.url", database_url_obj.render_as_string(hide_password=False)
 )
 
 # Interpret the config file for Python logging.
